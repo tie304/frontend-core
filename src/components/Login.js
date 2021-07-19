@@ -1,12 +1,18 @@
+import { Redirect } from "react-router-dom";
 import React, { useState } from "react";
+import { login } from "../api/Auth";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const handleLogin = () => {
-    alert("loging in:" + email);
+    login(email, password);
+    setIsLoggedIn(true);
   };
+  if (isLoggedIn) {
+    return <Redirect to="/dashboard" />;
+  }
 
   return (
     <div className="form-container">
