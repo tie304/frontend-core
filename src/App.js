@@ -1,11 +1,22 @@
 import axios from "axios";
-import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useReducer } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import logo from "./logo.svg";
 import "./App.css";
 
 import Header from "./components/Header";
 import Login from "./components/Login";
+import PrivateRoute from "./components/utils/PrivateRoute";
+
+import AppStateReducer from "./reducers/AppState";
+const initalAppState = {
+  authenticated: false,
+};
 
 // set a default response handler
 axios.interceptors.response.use(
@@ -18,9 +29,15 @@ axios.interceptors.response.use(
   }
 );
 
+const TestRoute = () => <h1>Dashboard</h1>;
+
 function App() {
   const token = localStorage.getItem("access_token");
   axios.defaults.headers.common = { Authorization: `bearer ${token}` };
+  const [appState, appStateDispatch] = useReducer(
+    AppStateReducer,
+    initalAppState
+  );
   return (
     <Router>
       <div>
@@ -31,8 +48,11 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
+          <PrivateRoute exact path="/dashboard" state={appState}>
+            <TestRoute />
+          </PrivateRoute>
           <Route exact path="/login">
-            <Login />
+            <Login appStateDispatch={appStateDispatch} />
           </Route>
         </Switch>
       </div>

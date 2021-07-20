@@ -2,13 +2,14 @@ import { Redirect } from "react-router-dom";
 import React, { useState } from "react";
 import { login } from "../api/Auth";
 
-function Login() {
+function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const handleLogin = () => {
     login(email, password);
     setIsLoggedIn(true);
+    props.appStateDispatch({ type: "SET_AUTH", payload: true });
   };
   if (isLoggedIn) {
     return <Redirect to="/dashboard" />;
