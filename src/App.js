@@ -13,8 +13,10 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 import PrivateRoute from "./components/utils/PrivateRoute";
 
+
 import AppStateReducer from "./reducers/AppState";
 import { AppContext } from "./AppContext";
+
 
 // set a default response handler
 axios.interceptors.response.use(
@@ -28,16 +30,13 @@ axios.interceptors.response.use(
 
 const TestRoute = () => <h1>Dashboard</h1>;
 
-if (tokenStillValid()) {
-  //initalAppState.authenticated = true;
-}
 function App() {
   const token = localStorage.getItem("access_token");
   axios.defaults.headers.common = { Authorization: `bearer ${token}` };
-  const { appState, appStateDispatch } = useContext(AppContext);
-  if (tokenStillValid()) {
-    // appStateDispatch({type: "SET_AUTH", payload: true})
-  }
+	const { appState, appStateDispatch } = useContext(AppContext)
+	if (tokenStillValid() && !appState.authenticated) {
+			appStateDispatch({type: "SET_AUTH", payload: true})
+	}
   return (
     <Router>
       <div>
