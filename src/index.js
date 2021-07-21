@@ -4,11 +4,14 @@ import "./index.css";
 import "bulma/css/bulma.min.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { AppContextProvider } from "./AppContext";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <AppContextProvider>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </AppContextProvider>,
   document.getElementById("root")
 );
 

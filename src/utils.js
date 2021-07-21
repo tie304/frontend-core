@@ -2,6 +2,9 @@ import jwt_decode from "jwt-decode";
 
 export const tokenStillValid = () => {
   const token = localStorage.getItem("access_token");
+  if (!token) {
+    return false;
+  }
   const decoded = jwt_decode(token);
 
   if (decoded.exp - Date.now() / 1000 > 0) {

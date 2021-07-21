@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useReducer } from "react";
+import React, { useContext } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,9 +14,7 @@ import Login from "./components/Login";
 import PrivateRoute from "./components/utils/PrivateRoute";
 
 import AppStateReducer from "./reducers/AppState";
-const initalAppState = {
-  authenticated: false,
-};
+import { AppContext } from "./AppContext";
 
 // set a default response handler
 axios.interceptors.response.use(
@@ -29,17 +27,17 @@ axios.interceptors.response.use(
 );
 
 const TestRoute = () => <h1>Dashboard</h1>;
+
 if (tokenStillValid()) {
-  initalAppState.authenticated = true;
+  //initalAppState.authenticated = true;
 }
 function App() {
   const token = localStorage.getItem("access_token");
   axios.defaults.headers.common = { Authorization: `bearer ${token}` };
-  const [appState, appStateDispatch] = useReducer(
-    AppStateReducer,
-    initalAppState
-  );
-
+  const { appState, appStateDispatch } = useContext(AppContext);
+  if (tokenStillValid()) {
+    // appStateDispatch({type: "SET_AUTH", payload: true})
+  }
   return (
     <Router>
       <div>
