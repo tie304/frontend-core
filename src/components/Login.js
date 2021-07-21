@@ -5,13 +5,11 @@ import { login } from "../api/Auth";
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loginError, setLoginError] = useState("");
   const handleLogin = () => {
-    login(email, password);
-    setIsLoggedIn(true);
-    props.appStateDispatch({ type: "SET_AUTH", payload: true });
+    login(email, password, props.appStateDispatch, setLoginError);
   };
-  if (isLoggedIn) {
+  if (props.appState.authenticated) {
     return <Redirect to="/dashboard" />;
   }
 
@@ -44,6 +42,11 @@ function Login(props) {
       <button onClick={handleLogin} className="button form-container__button">
         Login
       </button>
+      {loginError ? (
+        <p className="help is-danger">Email or password is invalid</p>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

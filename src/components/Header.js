@@ -1,12 +1,34 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { handleSignout } from "../utils";
 
-function Header() {
+const RenderLogin = () => {
+  return (
+    <Link className="button" to="/login">
+      Login
+    </Link>
+  );
+};
+
+const RenderLogout = (props) => {
+  return (
+    <button
+      onClick={(e) => handleSignout(props.appStateDispatch)}
+      className="button"
+    >
+      Signout
+    </button>
+  );
+};
+
+function Header(props) {
   return (
     <header className="header">
-      <Link className="button" to="/login">
-        Login
-      </Link>
+      {!props.appState.authenticated ? (
+        <RenderLogin />
+      ) : (
+        <RenderLogout appStateDispatch={props.appStateDispatch} />
+      )}
     </header>
   );
 }

@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import logo from "./logo.svg";
 import "./App.css";
-
+import { tokenStillValid } from "./utils";
 import Header from "./components/Header";
 import Login from "./components/Login";
 import PrivateRoute from "./components/utils/PrivateRoute";
@@ -24,13 +24,14 @@ axios.interceptors.response.use(
     return res;
   },
   (err) => {
-    alert("Error");
     return Promise.reject(err);
   }
 );
 
 const TestRoute = () => <h1>Dashboard</h1>;
-
+if (tokenStillValid()) {
+  initalAppState.authenticated = true;
+}
 function App() {
   const token = localStorage.getItem("access_token");
   axios.defaults.headers.common = { Authorization: `bearer ${token}` };
@@ -38,10 +39,11 @@ function App() {
     AppStateReducer,
     initalAppState
   );
+
   return (
     <Router>
       <div>
-        <Header />
+        <Header appState={appState} appStateDispatch={appStateDispatch} />
         {/* A <Switch> looks through its children <Route>s and
 							renders the first one that matches the current URL. */}
         <Switch>
@@ -52,7 +54,7 @@ function App() {
             <TestRoute />
           </PrivateRoute>
           <Route exact path="/login">
-            <Login appStateDispatch={appStateDispatch} />
+            <Login appState={appState} appStateDispatch={appStateDispatch} />
           </Route>
         </Switch>
       </div>
