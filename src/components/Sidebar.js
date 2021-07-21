@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(true);
 
@@ -10,6 +12,19 @@ const Sidebar = () => {
     contentItemClass += " collapsed";
     contentItemActionClass += " collapsed";
   }
+
+  const SideBarItem = ({ title, icon, link }) => {
+    return (
+      <Link to={link}>
+        <div className="sidebar__content-item">
+          <span className="sidebar__content-item-icon">
+            <i class={icon}></i>
+          </span>
+          <div className={contentItemActionClass}>{title}</div>
+        </div>
+      </Link>
+    );
+  };
   return (
     <div
       className={sideBarClass}
@@ -17,25 +32,9 @@ const Sidebar = () => {
       onMouseLeave={(e) => setCollapsed(true)}
     >
       <div className={contentItemClass}>
-        <div className="sidebar__content-item">
-          <span className="sidebar__content-item-icon">
-            <i class="fa fa-home fa-2x"></i>
-          </span>
-          <div className={contentItemActionClass}>Dashboard</div>
-        </div>
-
-        <div className="sidebar__content-item">
-          <span className="sidebar__content-item-icon">
-            <i class="fa fa-laptop fa-2x"></i>
-          </span>
-          <div className={contentItemActionClass}>User Management</div>
-        </div>
-        <div className="sidebar__content-item">
-          <span className="sidebar__content-item-icon">
-            <i class="fa fa-list fa-2x"></i>
-          </span>
-          <div className={contentItemActionClass}>Email Templates</div>
-        </div>
+        <SideBarItem title="Data" icon="fa fa-signal fa-2x" />
+        <SideBarItem title="Users" icon="fa fa-users fa-2x" link="/users" />
+        <SideBarItem title="Communication" icon="fa fa-envelope fa-2x" />
       </div>
     </div>
   );

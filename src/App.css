@@ -6,6 +6,12 @@ body {
   height: 100%;
   margin: 0;
 }
+a,
+a:visited {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+}
+
 .header {
   padding: 1rem;
 }
@@ -32,7 +38,9 @@ body {
   position: fixed;
   width: 15rem;
   background: black;
-  height: 50rem;
+  border-top-right-radius: 5px;
+
+  border-bottom-right-radius: 5px;
 }
 .sidebar__content {
   width: 15rem;

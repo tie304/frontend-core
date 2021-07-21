@@ -12,7 +12,7 @@ import { tokenStillValid } from "./utils";
 import Header from "./components/Header";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
-
+import Users from "./components/Users";
 import PrivateRoute from "./components/utils/PrivateRoute";
 
 import AppStateReducer from "./reducers/AppState";
@@ -47,6 +47,9 @@ function App() {
           </Route>
           <PrivateRoute exact path="/dashboard" state={appState}>
             <Dashboard />
+          </PrivateRoute>
+          <PrivateRoute exact path="/users" state={appState}>
+            <Users />
           </PrivateRoute>
           <Route exact path="/login">
             <Login appState={appState} appStateDispatch={appStateDispatch} />
